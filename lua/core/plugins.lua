@@ -9,7 +9,7 @@ return {
 			themeConfigFile = "~/.config/nvim/lua/config/theme.lua",
 			livePreview = true
 		}
-	}
+	},
 	{
 		"nvim-lualine/lualine.nvim",
 		opts = {

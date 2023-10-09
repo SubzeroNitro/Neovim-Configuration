@@ -14,7 +14,9 @@ function M.bootstrap(plugins, options)
 
     vim.opt.rtp:prepend(lazy_path)
 
-    require("lazy").setup(plugins, options or {})
+    require("lazy").setup(plugins.config, options or {})
+
+    plugins.initialize()
 end
 
 function M.load_key_mappings(mappings)

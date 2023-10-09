@@ -1,4 +1,6 @@
-return {
+local M = {}
+
+M.table = {
     {
 	"nvim-tree/nvim-web-devicons",
     },
@@ -38,3 +40,9 @@ return {
 	}
     }
 }
+
+function M.initialize()
+
+end
+
+return M

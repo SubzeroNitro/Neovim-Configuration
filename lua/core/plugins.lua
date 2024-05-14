@@ -1,53 +1,11 @@
 local M = {}
 
-M.table = {
+M.config = {
     {
 		"nvim-tree/nvim-web-devicons",
+		enabled = vim.g.have_nerd_font
     },
-    {
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{ 
-				"williamboman/mason.nvim",
-				config = true,
-				opts = {}
-			},
-			{
-				"williamboman/mason-lspconfig.nvim",
-				opts = {}
-			},
-			{
-				"WhoIsSethDaniel/mason-tool-installer.nvim",
-				opts = {}
-			},
-			{
-				"j-hui/fidget.nvim",
-				tag = "legacy",
-				opts = {}
-			},
-			{
-				"folke/neodev.nvim",
-				opts = {}
-			}
-		},
-		opts = {}
-    },
-    {
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-			"hrsh7th/cmp-nvim-lsp",
-			"windwp/nvim-autopairs",
-			"hrsh7th/cmp-path"
-		},
-		opts = {}
-    },
-    {
-		"folke/which-key.nvim"
-    },
-    {
+	{
 		"zaldih/themery.nvim",
 		opts = {
 			themes = {},
@@ -60,32 +18,77 @@ M.table = {
 		opts = {
 			icons_enabled = true
 		}
+    },
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy"
+    },
+    {
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{ 
+				"williamboman/mason.nvim",
+				config = true
+			},
+			{
+				"j-hui/fidget.nvim",
+				tag = "legacy",
+				config = true
+			},
+			{
+				"folke/neodev.nvim",
+				config = true
+			},
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim"
+		}
+    },
+    {
+		"hrsh7th/nvim-cmp",
+		config = true,
+		dependencies = {
+			{
+				"L3MON4D3/LuaSnip",
+				dependencies = {
+					"rafamadriz/friendly-snippets"
+				}
+			},
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
+			"windwp/nvim-autopairs"
+		}
     }
 }
 
 function M.initialize()
+	require("luasnip.loaders.from_vscode").lazy_load()
+
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     
     luasnip.config.setup()
 
     cmp.setup({
-	snippet = {
-	    expand = function (arg)
-		luasnip.lsp_expand(arg.body)
-	    end
-	},
-	completion = {
-	    completeopt = "menu,menuone,noinsert"
-	},
-	sources = {
-	    {
-		name = "nvim_lsp"
-	    },
-	    {
-		name = "luasnip"
-	    }
-	}
+		snippet = {
+			expand = function (arg)
+				luasnip.lsp_expand(arg.body)
+			end
+		},
+		completion = {
+			completeopt = "menu,menuone,noinsert"
+		},
+		sources = {
+			{
+				name = "nvim_lsp"
+			},
+			{
+				name = "luasnip"
+			},
+			{
+				name = "path"
+			}
+		}
     })
 end
 

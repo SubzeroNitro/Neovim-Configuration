@@ -20,10 +20,11 @@ function M.bootstrap(plugins, options)
 end
 
 function M.load_key_mappings(mappings)
-    for mode, mapping in pair(mappings) do
-		for keybind, value in pair(mapping) do
-			local command = value[1]
-			local options = value[2]
+    for mode, map in pairs(mappings.config) do
+		for _, mapping in ipairs(map) do
+			local keybind = mapping[1]
+			local command = mapping[2]
+			local options = mapping[3]
 
 			vim.keymap.set(mode, keybind, command, options)
 		end

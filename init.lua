@@ -13,15 +13,21 @@ vim.opt.cursorlineopt = "line,number"
 vim.opt.expandtab = false
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
+vim.opt.inccommand = "split"
 vim.opt.number = true
+vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 4
+vim.opt.showmode = false
 vim.opt.smartindent = true
 vim.opt.smartcase = true
 vim.opt.softtabstop = 0
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
+vim.opt.undofile = true
 
 if vim.g.neovide then
     vim.g.neovide_refresh_rate = 144
@@ -42,3 +48,4 @@ if vim.g.neovide then
 end
 
 core.utilities.bootstrap(core.plugins)
+core.utilities.load_key_mappings(core.mappings)

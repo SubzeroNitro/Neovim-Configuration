@@ -10,7 +10,11 @@ M.config = {
 		{ "<C-h>", "<C-w>h", { silent = true } },
 		{ "<C-j>", "<C-w>j", { silent = true } },
 		{ "<C-k>", "<C-w>k", { silent = true } },
-		{ "<C-l>", "<C-w>l", { silent = true } }
+		{ "<C-l>", "<C-w>l", { silent = true } },
+		{ "<leader>h", function() require("nvim-tree.api").tree.toggle() end, { desc = "Toggle tree" } },
+		{ "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Telescope find files" } },
+		{ "<leader>fg", function() require("telescope.builtin").live_grep() end, { desc = "Telescope live grep" } },
+		{ "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Telescope live grep" } }
 	},
 	["t"] = {
 		{ "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal mode" } },

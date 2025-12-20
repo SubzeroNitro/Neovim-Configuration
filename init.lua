@@ -2,6 +2,9 @@ local core = require("core")
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.g.lazydev_enabled = true
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.opt.autoread = false
 vim.opt.breakindent = true
@@ -28,24 +31,6 @@ vim.opt.termguicolors = true
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
-
-if vim.g.neovide then
-    vim.g.neovide_refresh_rate = 144
-
-    vim.g.neovide_cursor_animation_length = 0
-
-    vim.g.neovide_fullscreen = true
-
-    vim.g.neovide_padding_top = 5
-    vim.g.neovide_padding_bottom = 5
-    vim.g.neovide_padding_left = 5
-    vim.g.neovide_padding_right = 5
-
-    vim.g.neovide_hide_mouse_when_typing = true
-
-    vim.o.guifont = "RobotoMono Nerd Font:h16"
-    vim.o.linespacing = 0
-end
 
 core.utilities.bootstrap(core.plugins)
 core.utilities.load_key_mappings(core.mappings)

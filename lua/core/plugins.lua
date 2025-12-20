@@ -1,17 +1,19 @@
 local M = {}
 
 M.config = {
-    {
-		"nvim-tree/nvim-web-devicons",
-		enabled = vim.g.have_nerd_font
-    },
+	"catppuccin/nvim",
 	{
 		"zaldih/themery.nvim",
 		opts = {
-			themes = {},
-			themeConfigFile = "~/.config/nvim/lua/config/theme.lua",
+			themes = {
+				"catppuccin"
+			},
 			livePreview = true
 		}
+    },
+    {
+		"nvim-tree/nvim-web-devicons",
+		enabled = vim.g.have_nerd_font
     },
 	{
 		"nvim-lualine/lualine.nvim",
@@ -23,61 +25,81 @@ M.config = {
 		"folke/which-key.nvim",
 		event = "VeryLazy"
     },
-    {
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{ 
-				"williamboman/mason.nvim",
-				config = true
-			},
-			{
-				"j-hui/fidget.nvim",
-				tag = "legacy",
-				config = true
-			},
-			{
-				"folke/neodev.nvim",
-				config = true
-			},
-			"williamboman/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim"
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } }
+			}
 		}
-    },
-    {
-		"hrsh7th/nvim-cmp",
-		config = true,
-		dependencies = {
-			{
-				"L3MON4D3/LuaSnip",
-				dependencies = {
-					"rafamadriz/friendly-snippets"
-				}
-			},
-			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-path",
-			"windwp/nvim-autopairs"
+	},
+	"neovim/nvim-lspconfig",
+	{
+		"mason-org/mason.nvim",
+		opts = {}
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = {
+				"lua_ls",
+				"vtsls"
+			}
 		}
-    }
+	},
+	{
+		"j-hui/fidget.nvim",
+		opts = {}
+	},
+	"L3MON4D3/LuaSnip",
+	"saadparwaiz1/cmp_luasnip",
+	"rafamadriz/friendly-snippets",
+	"windwp/nvim-autopairs",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/nvim-cmp",
+	{
+		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate"
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		opts = {}
+	},
+	"nvim-telescope/telescope.nvim",
+	"nvim-lua/plenary.nvim"
 }
 
 function M.initialize()
 	require("luasnip.loaders.from_vscode").lazy_load()
 
-    local cmp = require("cmp")
+	local cmp = require("cmp")
     local luasnip = require("luasnip")
-    
+
     luasnip.config.setup()
 
     cmp.setup({
 		snippet = {
-			expand = function (arg)
-				luasnip.lsp_expand(arg.body)
+			expand = function (args)
+				luasnip.lsp_expand(args.body)
 			end
 		},
 		completion = {
 			completeopt = "menu,menuone,noinsert"
 		},
+		mapping = cmp.mapping.preset.insert({
+			[ "<C-d>" ] = cmp.mapping.scroll_docs(-4),
+			[ "<C-u>" ] = cmp.mapping.scroll_docs(4),
+			[ "<C-Space>" ] = cmp.mapping.complete(),
+			[ "<C-e>" ] = cmp.mapping.abort(),
+			[ "<CR>" ] = cmp.mapping.confirm({ select = true }),
+			[ "<Tab>" ] = cmp.mapping.confirm({ select = true })
+		}),
 		sources = {
 			{
 				name = "nvim_lsp"
@@ -90,6 +112,9 @@ function M.initialize()
 			}
 		}
     })
+
+	local capabilities = require("cmp_nvim_lsp").default_capabilities()
+	vim.lsp.config("*", capabilities)
 end
 
 return M

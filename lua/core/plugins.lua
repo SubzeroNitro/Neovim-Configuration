@@ -2,11 +2,30 @@ local M = {}
 
 M.config = {
 	"catppuccin/nvim",
+	"folke/tokyonight.nvim",
+	"rebelot/kanagawa.nvim",
+	"rose-pine/neovim",
+	"navarasu/onedark.nvim",
+	"sainnhe/gruvbox-material",
+	"projekt0n/github-nvim-theme",
+	"sainnhe/everforest",
+	"Mofiqul/vscode.nvim",
+	"scottmckendry/cyberdream.nvim",
 	{
 		"zaldih/themery.nvim",
+		lazy = false,
 		opts = {
 			themes = {
-				"catppuccin"
+				"catppuccin",
+				"tokyonight",
+				"kanagawa",
+				"rose-pine",
+				"onedark",
+				"gruvbox-material",
+				"github_dark",
+				"everforest",
+				"vscode",
+				"cyberdream"
 			},
 			livePreview = true
 		}
@@ -18,9 +37,14 @@ M.config = {
 	{
 		"nvim-lualine/lualine.nvim",
 		opts = {
-			icons_enabled = true
+			icons_enabled = true,
+			theme = "auto",
 		}
     },
+	{
+		"akinsho/bufferline.nvim",
+		opts = {}
+	},
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy"
@@ -65,14 +89,9 @@ M.config = {
 		lazy = false,
 		build = ":TSUpdate"
 	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		opts = {}
-	},
 	"nvim-telescope/telescope.nvim",
-	"nvim-lua/plenary.nvim"
+	"nvim-telescope/telescope-file-browser.nvim",
+	"nvim-lua/plenary.nvim",
 }
 
 function M.initialize()

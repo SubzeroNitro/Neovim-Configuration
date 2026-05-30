@@ -17,6 +17,7 @@ vim.opt.expandtab = false
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = "split"
+vim.opt.mousemoveevent = true
 vim.opt.number = true
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 4

@@ -29,18 +29,18 @@ M.config = {
 			},
 			livePreview = true
 		}
-    },
-    {
+	},
+	{
 		"nvim-tree/nvim-web-devicons",
 		enabled = vim.g.have_nerd_font
-    },
+	},
 	{
 		"nvim-lualine/lualine.nvim",
 		opts = {
 			icons_enabled = true,
 			theme = "auto",
 		}
-    },
+	},
 	{
 		"akinsho/bufferline.nvim",
 		opts = {}
@@ -48,7 +48,7 @@ M.config = {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy"
-    },
+	},
 	{
 		"folke/lazydev.nvim",
 		ft = "lua",
@@ -68,13 +68,38 @@ M.config = {
 		opts = {
 			ensure_installed = {
 				"lua_ls",
-				"vtsls"
+				"vtsls",
+				"basedpyright"
 			}
 		}
 	},
 	{
 		"j-hui/fidget.nvim",
 		opts = {}
+	},
+	"mfussenegger/nvim-lint",
+	{
+		"rshkarin/mason-nvim-lint",
+		opts = {
+			ensure_installed = {
+				"eslint_d",
+				"ruff"
+			},
+			automatic_installation = false
+		}
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			formatters_by_ft = {
+				typescript = { "prettierd" },
+				python = { "black" }
+			},
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_format = "fallback"
+			}
+		}
 	},
 	"L3MON4D3/LuaSnip",
 	"saadparwaiz1/cmp_luasnip",
@@ -91,20 +116,20 @@ M.config = {
 	},
 	"nvim-telescope/telescope.nvim",
 	"nvim-telescope/telescope-file-browser.nvim",
-	"nvim-lua/plenary.nvim",
+	"nvim-lua/plenary.nvim"
 }
 
 function M.initialize()
 	require("luasnip.loaders.from_vscode").lazy_load()
 
 	local cmp = require("cmp")
-    local luasnip = require("luasnip")
+	local luasnip = require("luasnip")
 
-    luasnip.config.setup()
+	luasnip.config.setup()
 
-    cmp.setup({
+	cmp.setup({
 		snippet = {
-			expand = function (args)
+			expand = function(args)
 				luasnip.lsp_expand(args.body)
 			end
 		},
@@ -112,12 +137,12 @@ function M.initialize()
 			completeopt = "menu,menuone,noinsert"
 		},
 		mapping = cmp.mapping.preset.insert({
-			[ "<C-d>" ] = cmp.mapping.scroll_docs(-4),
-			[ "<C-u>" ] = cmp.mapping.scroll_docs(4),
-			[ "<C-Space>" ] = cmp.mapping.complete(),
-			[ "<C-e>" ] = cmp.mapping.abort(),
-			[ "<CR>" ] = cmp.mapping.confirm({ select = true }),
-			[ "<Tab>" ] = cmp.mapping.confirm({ select = true })
+			["<C-d>"] = cmp.mapping.scroll_docs(-4),
+			["<C-u>"] = cmp.mapping.scroll_docs(4),
+			["<C-Space>"] = cmp.mapping.complete(),
+			["<C-e>"] = cmp.mapping.abort(),
+			["<CR>"] = cmp.mapping.confirm({ select = true }),
+			["<Tab>"] = cmp.mapping.confirm({ select = true })
 		}),
 		sources = {
 			{
@@ -130,10 +155,19 @@ function M.initialize()
 				name = "path"
 			}
 		}
-    })
+	})
 
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 	vim.lsp.config("*", capabilities)
+	vim.lsp.config("basedpyright", {
+		settings = {
+			basedpyright = {
+				analysis = {
+					typeCheckingMode = "basic"
+				}
+			}
+		}
+	})
 end
 
 return M
